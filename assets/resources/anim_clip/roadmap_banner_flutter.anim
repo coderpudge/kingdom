@@ -1,0 +1,77 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "roadmap_banner_flutter",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 1,
+  "sample": 9,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "paths": {
+      "level_entry_0": {
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": [
+              {
+                "frame": 0,
+                "value": {
+                  "__uuid__": "5f63d572-ce10-4dbb-ae5e-a1888aa41377"
+                }
+              },
+              {
+                "frame": 0.1111111111111111,
+                "value": {
+                  "__uuid__": "36508c5d-f161-43fc-b1dc-7c74401c236d"
+                }
+              },
+              {
+                "frame": 0.2222222222222222,
+                "value": {
+                  "__uuid__": "0cf2412a-c73a-4ec6-89ea-37c80c00d706"
+                }
+              },
+              {
+                "frame": 0.3333333333333333,
+                "value": {
+                  "__uuid__": "4124ed30-e40c-483e-b02c-9a8f133cb61f"
+                }
+              },
+              {
+                "frame": 0.4444444444444444,
+                "value": {
+                  "__uuid__": "ff652309-1c37-4387-adfd-2ac4fcf7adcb"
+                }
+              },
+              {
+                "frame": 0.5555555555555556,
+                "value": {
+                  "__uuid__": "01651138-83a2-4158-9e52-24b846045abd"
+                }
+              },
+              {
+                "frame": 0.6666666666666666,
+                "value": {
+                  "__uuid__": "305e28a7-130e-4247-a5e0-6f4f4b58323c"
+                }
+              },
+              {
+                "frame": 0.7777777777777778,
+                "value": {
+                  "__uuid__": "7cdeaa8c-eadb-4f2a-9e88-df1f2c23d48c"
+                }
+              },
+              {
+                "frame": 0.8888888888888888,
+                "value": {
+                  "__uuid__": "473e9900-6dba-47e7-b903-39270cc055ff"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "events": []
+}

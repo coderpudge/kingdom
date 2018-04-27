@@ -1,0 +1,45 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "roadmap_score_to_down",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 1,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "props": {
+      "position": [
+        {
+          "frame": 0,
+          "value": [
+            368,
+            389
+          ]
+        },
+        {
+          "frame": 0.6666666666666666,
+          "value": [
+            368,
+            282.7
+          ]
+        },
+        {
+          "frame": 0.6666666666666666,
+          "value": [
+            368,
+            275.3
+          ]
+        },
+        {
+          "frame": 1,
+          "value": [
+            368,
+            287
+          ]
+        }
+      ]
+    }
+  },
+  "events": []
+}
