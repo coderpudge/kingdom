@@ -1,3 +1,4 @@
+
 var  ugame = require('data/ugame')
 var uiutils = require("common/uiUtils")
 var soundMgr = require("common/soundManager")
@@ -123,29 +124,7 @@ cc.Class({
         this.doorLoading.loadScene("home");
     },
 
-    // sortSkill(){
-    //     // -110  210;
-    //     var num = 5;
-    //     var height = 51;
-    //     var startPos = 0;
-    //     var endPos = 320;
 
-    //     var allLength = endPos - startPos;
-    //     // (num +1 )* kong + height*num = alllength
-    //     var kong = (allLength - height * num )/(num + 1);
-        
-    //     for(var j = 0;j<6;j++){
-    //         for(var i=0;i<num;i++){
-    //             var pos = (kong + 0.5* height) + i*(height+kong)  + startPos;
-    //             console.log("pos:",pos,"kong",kong,"Canvas/ar-center/upgradeConfig/skill"+(j+1)+"/"+(j+1)+(i+1));
-                
-    //             var skill = cc.find("Canvas/ar-center/upgradeConfig/skill"+(j+1)+"/"+(j+1)+(i+1));
-    //             skill.y = pos;
-    //         }
-    //     }
-
-
-    // },
     //0:置灰 不可点击, 1:可点击, 2:不可点击,不置灰
     /**
      * 
@@ -223,6 +202,8 @@ cc.Class({
                     state = 0;
                 }else if (curSkillLevel + 1  == confLvl && parseInt(cost) <= (star - usedStar)) {
                     state = 1
+                }else if (curSkillLevel + 1  == confLvl) {
+                    state = 0
                 }else{
                     state = 2;
                     // break;
@@ -270,7 +251,9 @@ cc.Class({
                     state = 1
                 }else if (curSkillLevel + 1 < confLvl){
                     state = 0;
-                }else {
+                }else if (curSkillLevel + 1  == confLvl) {
+                    state = 0
+                }else{
                     state = 2;
                     // break;
                 }
@@ -285,13 +268,7 @@ cc.Class({
 
     onUpgrade(event,data){
         console.log("onclick",data);
-        // var skills = cc.find("Canvas/ar-center/upgradeConfig/skill"+data.charAt(0));
-        // var skill = skills.getChildByName(data);
-        // var btn = skill.addComponent(cc.Button);
-        // this.setButtonState(btn,2);
         var skillNo = parseInt(data.charAt(0)) - 1;
-        // var skillLvl = parseInt(data.charAt(1)) - 1
-        // var cost = ugame.towerSkillUpgradeConfig[skillNo][skillLvl];
         var ret = ugame.upgradeSkill(skillNo);
         if (ret == 1) {
             this.reLoadSkillConfig();
@@ -316,10 +293,11 @@ cc.Class({
     },
     
     resetTowerSkill(){
-        
+        ugame.curUser.towerSkillLevel = [0,0,0,0,0,0]
+        this.reLoadSkillConfig();
     },
     done(){
-        
+        this.onUpgradeWinShow();
     }
 
     // update (dt) {},
