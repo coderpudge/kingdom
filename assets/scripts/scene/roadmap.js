@@ -69,7 +69,7 @@ cc.Class({
                 stage.parent = self.chapterNode;
                 stage.name = "stage"+i;
                 stageCom.setStageId(i);
-                var star = user.stageRecord[i].normalStar;
+                var star = user.stageData[i].normalStar;
                 stageCom.showStar(star);
 
                 // if (i == self.cur_stageId && i!= self.cur_stages.length) {
@@ -168,8 +168,8 @@ cc.Class({
         
         //剩余 star
         var usedStar = 0;
-        for (let i = 0; i < user.towerSkillLevel.length; i++) {
-            var lvl =  user.towerSkillLevel[i];
+        for (let i = 0; i < user.towerSkillLevelData.length; i++) {
+            var lvl =  user.towerSkillLevelData[i];
             for (let j = 0; j < lvl; j++) {
                 usedStar += ugame.towerSkillUpgradeConfig[i][j];  
             }
@@ -179,9 +179,7 @@ cc.Class({
         for (let i = 0; i < ugame.towerSkillUpgradeConfig.length; i++) {
             var skills = cc.find("Canvas/ar-center/upgradeConfig/skill"+(i+1));
             var skillUpgradeCost = ugame.towerSkillUpgradeConfig[i];
-            var curSkillLevel = ugame.curUser.towerSkillLevel[i];
-            
-            
+            var curSkillLevel = ugame.curUser.towerSkillLevelData[i];
             
             for(let j=0;j<5;j++){
                 var skill = skills.getChildByName((i+1)+""+(j+1))
@@ -210,9 +208,7 @@ cc.Class({
                 }
 
                 this.setButtonState(btn,state);
-                this.setStarState(starbg,starLabel,state);
-
-                
+                this.setStarState(starbg,starLabel,state);  
             }    
         }
     },
@@ -224,8 +220,8 @@ cc.Class({
         
         //剩余 star
         var usedStar = 0;
-        for (let i = 0; i < user.towerSkillLevel.length; i++) {
-            var lvl =  user.towerSkillLevel[i];
+        for (let i = 0; i < user.towerSkillLevelData.length; i++) {
+            var lvl =  user.towerSkillLevelData[i];
             for (let j = 0; j < lvl; j++) {
                 usedStar += ugame.towerSkillUpgradeConfig[i][j];  
             }
@@ -235,34 +231,63 @@ cc.Class({
         for (let i = 0; i < ugame.towerSkillUpgradeConfig.length; i++) {
             var skills = cc.find("Canvas/ar-center/upgradeConfig/skill"+(i+1));
             var skillUpgradeCost = ugame.towerSkillUpgradeConfig[i];
-            var curSkillLevel = ugame.curUser.towerSkillLevel[i];
-
-            for(let j=0;j<5;j++){
+            var curSkillLevel = ugame.curUser.towerSkillLevelData[i];
+            var j =0;
+            var state = 0;
+            for (; j < curSkillLevel ; j++) {
+                state = 2;
                 var skill = skills.getChildByName((i+1)+""+(j+1))
-                var btn = skill.getComponent(cc.Button);
+                var btn = skill.getComponent(cc. Button);
                 var starbg = skill.getChildByName("starBg").getComponent(cc.Sprite)
-                var starLabel = skill.getChildByName("starLabel");
-                
-                var cost = skillUpgradeCost[j]
-                starLabel.getComponent(cc.Label).string = cost;
-                var confLvl = j+1;
-                var state = 0;
-                if (curSkillLevel + 1  == confLvl && parseInt(cost) <= (star - usedStar)) {
-                    state = 1
-                }else if (curSkillLevel + 1 < confLvl){
-                    state = 0;
-                }else if (curSkillLevel + 1  == confLvl) {
-                    state = 0
-                }else{
-                    state = 2;
-                    // break;
-                }
-
+                var starLabel = skill.getChildByName("starLabel");   
+                this.setButtonState(btn,state);
+                this.setStarState(starbg,starLabel,state); 
+            }
+            var cost = skillUpgradeCost[j];
+            if(j<5 && parseInt(cost) <= (star - usedStar) ) {
+                state = 1;
+                var skill = skills.getChildByName((i+1)+""+(j+1))
+                var btn = skill.getComponent(cc. Button);
+                var starbg = skill.getChildByName("starBg").getComponent(cc.Sprite)
+                var starLabel = skill.getChildByName("starLabel");  
                 this.setButtonState(btn,state);
                 this.setStarState(starbg,starLabel,state);
-
+                j++; 
+            }
+            for(;j<5;j++){
+                state = 0;
+                var skill = skills.getChildByName((i+1)+""+(j+1))
+                var btn = skill.getComponent(cc. Button);
+                var starbg = skill.getChildByName("starBg").getComponent(cc.Sprite)
+                var starLabel = skill.getChildByName("starLabel");   
+                this.setButtonState(btn,state);
+                this.setStarState(starbg,starLabel,state);
+            }
+            // for(let j=0;j<5;j++){
+            //     var skill = skills.getChildByName((i+1)+""+(j+1))
+            //     var btn = skill.getComponent(cc.Button);
+            //     var starbg = skill.getChildByName("starBg").getComponent(cc.Sprite)
+            //     var starLabel = skill.getChildByName("starLabel");
                 
-            }    
+            //     var cost = skillUpgradeCost[j]
+            //     starLabel.getComponent(cc.Label).string = cost;
+            //     var confLvl = j+1;
+            //     var state = 0;
+            //     if (curSkillLevel + 1  == confLvl && parseInt(cost) <= (star - usedStar)) {
+            //         state = 1
+            //     }else if (curSkillLevel + 1 < confLvl){
+            //         state = 0;
+            //     }else if (curSkillLevel + 1  == confLvl) {
+            //         state = 0
+            //     }else{
+            //         state = 2;
+            //         // break;
+            //     }
+
+                // this.setButtonState(btn,state);
+                // this.setStarState(starbg,starLabel,state);
+
+            // }    
         }
     },
 
@@ -278,7 +303,7 @@ cc.Class({
     initSkillConfigStar(){
         var starCount = 10;
         ugame.towerSkillUpgradeConfig;
-        ugame.curUser.towerSkillLevel
+        ugame.curUser.towerSkillLevelData
 
     },
 
@@ -293,11 +318,12 @@ cc.Class({
     },
     
     resetTowerSkill(){
-        ugame.curUser.towerSkillLevel = [0,0,0,0,0,0]
+        ugame.curUser.towerSkillLevelData = [0,0,0,0,0,0]
         this.reLoadSkillConfig();
     },
     done(){
         this.onUpgradeWinShow();
+        ugame.writeUserData();
     }
 
     // update (dt) {},

@@ -1,20 +1,9 @@
 
 var ugame = {
+    // _config 定义为配置数据, _data 定义为需要保存的用户数据
     user_data:[],
     curUserId:0,
     curUser:null,
-    // 塔的技能等级
-    // towerSkillLevel:{
-    //     infantryLvl:0, //步兵
-    //     arrowLvl:0,   //弓箭兵
-    //     warlockLvl:0, //术士
-    //     artilleryLvl:0,   //炮兵
-
-    //     skillInfantryLvl:0, //召唤士兵
-    //     skillSkyfireLvl:0, //天火等级
-    // },
-    
-    
     // 塔的技能升级 需要消耗星
     towerSkillUpgradeConfig:[
         [0,1,3,2,2,3], //步兵
@@ -24,24 +13,30 @@ var ugame = {
         [4,1,2,2,2,3], //召唤士兵
         [5,1,2,2,2,3], //天火等级
     ],
-    // towerSkillUpgradeConfig:{
+    // towerSkillUpgradeConfigTable:{
     //     infantry:[0,1,3,2,2,3], //步兵
     //     arrow:[1,1,2,3,2,3],   //弓箭兵
     //     warlock:[2,1,1,2,1,3], //术士
     //     artillery:[3,1,2,1,2,3],   //炮兵
-
     //     skillInfantry:[4,1,2,2,2,3], //召唤士兵
     //     skillSkyfire:[5,1,2,2,2,3], //天火等级
     // },
     
-    
-
     init:function(){
         this.readUserData();
         console.log(this.user_data);
     },
     // 初始化 "用户" 数据
     initUserData:function() {
+        // 塔的技能等级
+        // towerSkillLevelDataTable:{
+        //     infantryLvl:0, //步兵
+        //     arrowLvl:0,   //弓箭兵
+        //     warlockLvl:0, //术士
+        //     artilleryLvl:0,   //炮兵
+        //     skillInfantryLvl:0, //召唤士兵
+        //     skillSkyfireLvl:0, //天火等级
+        // },
         var player = {
             hp:1,
             gold:0,
@@ -50,8 +45,8 @@ var ugame = {
             star:0,
             starTotal:100,
             curStage:0,
-            towerSkillLevel:[0,0,2,0,0,0],
-            stageRecord:[],
+            towerSkillLevelData:[0,0,2,0,0,0],
+            stageData:[],
         };
         this.initUserStage(player);
         return player;
@@ -59,7 +54,7 @@ var ugame = {
 
     // 初始化 "用户-关卡" 数据
     initUserStage:function(player) {
-        var stageRecord = player.stageRecord;
+        var stageData = player.stageData;
         var stageList = [];
         var stageCount = 20;
         var rdm = Math.random() * 10;
@@ -80,18 +75,18 @@ var ugame = {
                 player.curStage = i + 1;
             }
             player.star += stageModel.normalStar + stageModel.heroicStar +  stageModel.heroicStar
-            stageRecord.push(stageModel);         
+            stageData.push(stageModel);         
         }
     },
     // 初始总星数
     getTotalStar:function(idx){
-        return  5 * this.user_data[idx].stageRecord.length;
+        return  5 * this.user_data[idx].stageData.length;
     },
     //获取当前星数
     getSumStar:function(idx){
         var star = 0;
-        for (let i = 0; i < this.user_data[idx].stageRecord.length; i++) {
-            const element = this.user_data[idx].stageRecord[i];
+        for (let i = 0; i < this.user_data[idx].stageData.length; i++) {
+            const element = this.user_data[idx].stageData[i];
                 star += element.normalStar + element.heroicStar + element.ironStar;
         }
         return star;
@@ -102,8 +97,8 @@ var ugame = {
     //获取当前星数
     getHeroicStar:function(idx){
         var star = 0;
-        for (let i = 0; i < this.user_data[idx].stageRecord.length; i++) {
-            const element = this.user_data[idx].stageRecord[i];
+        for (let i = 0; i < this.user_data[idx].stageData.length; i++) {
+            const element = this.user_data[idx].stageData[i];
             star +=  element.heroicStar;
         }
         return star;
@@ -111,8 +106,8 @@ var ugame = {
     //获取当前星数
     getIronStar:function(idx){
         var star = 0;
-        for (let i = 0; i < this.user_data[idx].stageRecord.length; i++) {
-            const element = this.user_data[idx].stageRecord[i];
+        for (let i = 0; i < this.user_data[idx].stageData.length; i++) {
+            const element = this.user_data[idx].stageData[i];
             star +=  element.ironStar;
         }
         return star;
@@ -161,13 +156,13 @@ var ugame = {
     },
     upgradeSkill:function(skillNo){
         if (this.curUser) {
-            var skillLvl = this.curUser.towerSkillLevel[skillNo]
+            var skillLvl = this.curUser.towerSkillLevelData[skillNo]
             var cost = this.towerSkillUpgradeConfig[skillNo][skillLvl];
             //剩余 star
            
             if (this.getLeftStar() >= cost) {
                 // this.curUser.star -= cost;
-                this.curUser.towerSkillLevel[skillNo] += 1;
+                this.curUser.towerSkillLevelData[skillNo] += 1;
                 return 1;
             }
             return 2;
@@ -176,8 +171,8 @@ var ugame = {
     },
     getUsedStar:function(){
         var usedStar = 0;
-        for (let i = 0; i < this.curUser.towerSkillLevel.length; i++) {
-            var lvl = this.curUser.towerSkillLevel[i];
+        for (let i = 0; i < this.curUser.towerSkillLevelData.length; i++) {
+            var lvl = this.curUser.towerSkillLevelData[i];
             for (let j = 0; j < lvl; j++) {
                 usedStar += ugame.towerSkillUpgradeConfig[i][j];  
             }
