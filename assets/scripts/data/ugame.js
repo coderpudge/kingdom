@@ -38,7 +38,7 @@ var ugame = {
         //     skillSkyfireLvl:0, //天火等级
         // },
         var player = {
-            hp:1,
+            blood:0,
             gold:0,
             role:0,
             wave:0, 
@@ -187,7 +187,11 @@ var ugame = {
     battleEnd:function(){
 
     },
-
+    initCurUserFromStage(){
+        this.curUser.blood = 1;
+        this.curUser.gold = 1000;
+        this.curUser.wave = 0;
+    },
 
 }
 
